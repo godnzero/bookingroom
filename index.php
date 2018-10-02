@@ -26,6 +26,7 @@
           <h2>
             <?php
             // Prints the day, date, month, year, time, AM or PM
+            date_default_timezone_set('Asia/Bangkok');
             echo date("l , jS F Y");
             ?>
           </h2>
@@ -40,7 +41,7 @@
                 <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="pills-multiroom-tab" data-toggle="pill" href="#pills-multi" role="tab" aria-controls="pills-multi" aria-selected="false">Multi Room</a>
+                <a class="nav-link" id="pills-multiroom-tab" data-toggle="pill" href="#pills-multi" role="tab" aria-controls="pills-multi" aria-selected="false">2 Floor Room</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
@@ -195,7 +196,7 @@
       </div><!--col-md-12-->
 
       </div><!--END PILL PF-->
-              <div class="tab-pane fade" id="pills-multi" role="tabpanel" aria-labelledby="pills-multi-tab">MULTI
+              <div class="tab-pane fade" id="pills-multi" role="tabpanel" aria-labelledby="pills-multi-tab">
               
               <!--TEST FUNCTION-->
  
@@ -213,37 +214,38 @@ $arrRoom = array('1'=>"2A",'2'=>"2B",'3'=>"2C",'4'=>"2D",'5'=>"2E");
 ?>
 <?php
 
-$strTable = '<table border="1" width="1200px" align="center"><tr><td>ROOM/TIME </td>';
-foreach ($arrTime as $time => $time_value) { //สร้างหัวตาราง
-  $strTable .= '<td bgcolor="GREY">' . $time_value . '</td>';
-}
-$strTable .= '</tr>';
+$strTable = '<div class="col-md-12"> <div class="card-deck mb-3 text-center">';
+
+
 $queryAllReservedRoomsSql = "SELECT book_room, book_timeslot ,date_booking FROM `tb_bookingdetail` where date_booking='$today'";
 $allReservedRoomSqlResult = mysqli_query($conn, $queryAllReservedRoomsSql) or die("Error: " . mysqli_error($conn));
 $allReservedRoomList = mysqli_fetch_all($allReservedRoomSqlResult, MYSQLI_ASSOC);
 
 echo "</br>";
 foreach ($arrRoom as $roomKey => $room_value) {
-  $strTable .= '<tr><td bgcolor="GREY">' . $room_value . '</td>';
+  $strTable .= '<div class="card mb-4 shadow-sm"> 
+                <div class="card-header">
+                <h4 class="my-0 font-weight-normal text-muted">'.$room_value.'</h4>  
+                </div>';
   foreach ($arrTime as $timeKey => $time_value) {
       $isReserved = false;
-      foreach ($allReservedRoomList as &$reservedRoom) {
+      foreach ($allReservedRoomList as $reservedRoom) {
           if ($timeKey == $reservedRoom['book_timeslot'] && $roomKey == $reservedRoom['book_room']) {
               $isReserved = true;
               break;
           }
       }
       if ($isReserved) {
-          $strTable .= '<td><button class="btn btn-lg btn-block btn-secondary" disabled>RESERVED</button></td>';
+          $strTable .= '<div class="card-body"><button class="btn btn-lg btn-block btn-secondary" disabled>RESERVED</button></div>';
       } else {
-          $strTable .= '<td><a href="booking_form.php?room=' . $roomKey . '&time=' . $timeKey . '&today=' . $today . '" class="btn btn-lg btn-block btn-info" role="button">Available</a></td>';
+          $strTable .= '<div class="card-body"><a href="booking_form.php?room='.$roomKey.'&time='.$timeKey.'&today='.$today.'"class="btn btn-lg btn-block btn-info" role="button">'.$time_value.'</a></div>';
       }
 
   }
-  $strTable .= '</tr>';
+  $strTable .= '</div>';
 }
 
-echo $strTable, '</table>';
+echo $strTable, '</table></div></div>';
 ?>
               
               </div><!--END Multi-pill-->
@@ -374,11 +376,6 @@ function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
 }
-</script>
-
-<!--Scipt Disable Button-->
-<script>
-
 </script>
 
 </body></html>
