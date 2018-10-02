@@ -213,37 +213,43 @@ $arrRoom = array('1'=>"2A",'2'=>"2B",'3'=>"2C",'4'=>"2D",'5'=>"2E");
 ?>
 <?php
 
-$strTable = '<table border="1" width="1200px" align="center"><tr><td>ROOM/TIME </td>';
-foreach ($arrTime as $time => $time_value) { //สร้างหัวตาราง
-  $strTable .= '<td bgcolor="GREY">' . $time_value . '</td>';
+$strTable = '<div class="col-md-12"> <div class="card-deck mb-3 text-center">';
+
+foreach($arrRoom as $room => $room_value){
+  $strTable .='<div class="card mb-4 shadow-sm"> 
+               <div class="card-header">
+               <h4 class="my-0 font-weight-normal text-muted">'.$room_value.'</h4>  
+               </div>';
+
+  $sql="SELECT * FROM tb_bookingdetail 
+        INNER JOIN tb_room ON tb_bookingdetail.book_room = tb_room.room_id
+        INNER JOIN tb_timeslot ON tb_bookingdetail.book_timeslot = tb_timeslot.slot_id
+        WHERE book_room='$room' AND date_booking='$today'
+        ORDER BY book_timeslot ASC";
+  $query = mysqli_query($conn,$sql) or die("Error: ".mysqli_error($conn));
+ 
+  $result = mysqli_fetch_array($query,MYSQLI_ASSOC);
+ 
+  foreach($arrTime as $time => $time_value){
+    if($time == $result["book_timeslot"]){//ถ้ามีการจอง
+      $strTable .='<div class="card-body">
+                   <button class="btn btn-lg btn-block btn-secondary" disabled>RESERVED</button>
+                   </div>';
+      
+      echo "ROOM".$room."&nbsp"."TIME".$time.'<br>';
+    }
+  
+    else{
+      $strTable .='<div class="card-body">
+                   <a href="booking_form.php?room='.$room.'&time='.$time.'&today='.$today.'" class="btn btn-lg btn-block btn-info" role="button">'.$time_value.'</a>
+                   </div>';
+    }
+  
+  } // END Foreach
+
+  $strTable .='</div>';
 }
-$strTable .= '</tr>';
-$queryAllReservedRoomsSql = "SELECT book_room, book_timeslot ,date_booking FROM `tb_bookingdetail` where date_booking='$today'";
-$allReservedRoomSqlResult = mysqli_query($conn, $queryAllReservedRoomsSql) or die("Error: " . mysqli_error($conn));
-$allReservedRoomList = mysqli_fetch_all($allReservedRoomSqlResult, MYSQLI_ASSOC);
-
-echo "</br>";
-foreach ($arrRoom as $roomKey => $room_value) {
-  $strTable .= '<tr><td bgcolor="GREY">' . $room_value . '</td>';
-  foreach ($arrTime as $timeKey => $time_value) {
-      $isReserved = false;
-      foreach ($allReservedRoomList as &$reservedRoom) {
-          if ($timeKey == $reservedRoom['book_timeslot'] && $roomKey == $reservedRoom['book_room']) {
-              $isReserved = true;
-              break;
-          }
-      }
-      if ($isReserved) {
-          $strTable .= '<td><button class="btn btn-lg btn-block btn-secondary" disabled>RESERVED</button></td>';
-      } else {
-          $strTable .= '<td><a href="booking_form.php?room=' . $roomKey . '&time=' . $timeKey . '&today=' . $today . '" class="btn btn-lg btn-block btn-info" role="button">Available</a></td>';
-      }
-
-  }
-  $strTable .= '</tr>';
-}
-
-echo $strTable, '</table>';
+echo $strTable,'</table></div></div>';
 ?>
               
               </div><!--END Multi-pill-->
