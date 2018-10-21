@@ -30,10 +30,10 @@
     <div class="card-deck mb-3 text-center">
       <div class="card mb-4 shadow-md">
         <div class="card-header">
-          <p class="h1">Information</p>
+          <h1>Information</h1>
         </div>
         <!--header-->
-        <form class="form-inline" action="booking_todb.php" method="POST">
+        <form class="form-inline" action="booking_todb_AJ.php" method="POST">
 
           <div class="card-body">
 
@@ -74,41 +74,6 @@
             </div>
 
             <div class="form-group mx-auto mb-2">
-              <label for="message-text" class="col-form-label col-md-2">User ID 1:</label>
-              <div class="col-md-10">
-                <input class="form-control" id="message-text" name="id_1" placeholder="5588xxx" required>
-              </div>
-            </div>
-
-            <div class="form-group mx-auto mb-2">
-              <label for="message-text" class="col-form-label col-md-2">User ID 2:</label>
-              <div class="col-md-10">
-                <input class="form-control" id="message-text" name="id_2" placeholder="5588xxx" required>
-              </div>
-            </div>
-
-            <div class="form-group mx-auto mb-2">
-              <label for="message-text" class="col-form-label col-md-2">User ID 3:</label>
-              <div class="col-md-10">
-                <input class="form-control" id="message-text" name="id_3" placeholder="5588xxx" required>
-              </div>
-            </div>
-
-            <div class="form-group mx-auto mb-2">
-              <label for="message-text" class="col-form-label col-md-2">User ID 4:</label>
-              <div class="col-md-10">
-                <input class="form-control" id="message-text" name="id_4" placeholder="5588xxx" required>
-              </div>
-            </div>
-
-            <div class="form-group mx-auto mb-2">
-              <label for="message-text" class="col-form-label col-md-2">User ID 5:</label>
-              <div class="col-md-10">
-                <input class="form-control" id="message-text" name="id_5" placeholder="5588xxx" required>
-              </div>
-            </div>
-
-            <div class="form-group mx-auto mb-2">
               <label for="message-text" class="col-form-label col-md-2">Faculty:</label>
               <div class="col-md-10">
                 <input class="form-control" id="message-text" name="faculty" placeholder="คณะ" required>
@@ -118,7 +83,7 @@
             <div class="form-group mx-auto mb-2">
               <label for="message-text" class="col-form-label col-md-2">Email:</label>
               <div class="col-md-10">
-                <input class="form-control" type="email" id="message-text" name="book_email" placeholder="Email to contact" required>
+                <input class="form-control" id="message-text" name="book_email" placeholder="email.xxx@mahidol.ac.th" required>
               </div>
             </div>
 
