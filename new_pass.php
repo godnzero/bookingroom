@@ -1,3 +1,4 @@
+<?php include 'app_logic.php';?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +7,10 @@
 	<link rel="stylesheet" href="main.css">
 </head>
 <body>
-	<form class="login-form" action="new_pass.php" method="post">
+	<form class="login-form" action="" method="post">
 		<h2 class="form-title">New password</h2>
 		<!-- form validation messages -->
-		<?php include('messages.php'); ?>
+		<?php include 'messages.php';?>
 		<div class="form-group">
 			<label>New password</label>
 			<input type="password" name="new_pass">
